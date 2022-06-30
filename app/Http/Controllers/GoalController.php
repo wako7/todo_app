@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Goal;
 use Illuminate\Http\Request;
+//ログインしているユーザーの投稿のみをレスポンスとして返したいので、以下を追加
+use Illuminate\Support\Facades\Auth;
 
 class GoalController extends Controller
 {
@@ -14,18 +16,16 @@ class GoalController extends Controller
      */
     public function index()
     {
-        //
+        /**
+         * indexアクションではユーザーが作成したすべてのGoalを
+         * 「JSON」(JavaScript Object Notation)という形式で送信
+         */
+         $goals = Auth::user()->goals;
+         
+         return response()->json($goals);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -35,31 +35,22 @@ class GoalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /**
+         * storeアクションでは送られてきたリクエストの値を使い、
+         * 新しくGoalを作成します。
+         * indexアクション同様にJSON形式でレスポンスを返します。
+         */
+         $goal = new Goal();
+         $goal->title = request('title');
+         $goal->user_id = Auth::id();
+         $goal->save();
+         
+         $goals = Auth::user()->goals;
+         
+         return response()->json($goals);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Goal  $goal
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Goal $goal)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Goal  $goal
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Goal $goal)
-    {
-        //
-    }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -69,7 +60,17 @@ class GoalController extends Controller
      */
     public function update(Request $request, Goal $goal)
     {
-        //
+        /**
+         * updateアクションでは送られてきたリクエストの値を使い、
+         * 既存のGoalを更新します。
+         */
+         $goal->title = request('title');
+         $goal->user_id = Auth::id();
+         $goal->save();
+         
+         $goals = Auth::user()->goals;
+         
+         return response()->json($goals);
     }
 
     /**
@@ -80,6 +81,14 @@ class GoalController extends Controller
      */
     public function destroy(Goal $goal)
     {
-        //
+        /**
+         * destroyアクションでは送られてきたリクエストの値を使い、
+         * 既存のGoalを削除する
+         */
+         $goal->delete();
+         
+         $goals = Auth::user()->goals;
+         
+         return response()->json($goals);
     }
 }
