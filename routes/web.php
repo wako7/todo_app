@@ -14,6 +14,7 @@
 Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index')->name('home');
+//->name('home')でhomeとういうルート名を命名
 
 Route::resource("goals", "GoalController")->middleware('auth');;
 
