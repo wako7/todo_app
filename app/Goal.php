@@ -12,8 +12,8 @@ class Goal extends Model
         //Userモデルと【一対多】の逆向きのリレーションを定義する(多のほう)
     }
     
-    public function todos()
-    {
-        return $this->hasMany('App\ToDo');
-    }
+   public function todos()
+     {
+         return $this->hasMany('App\Todo');
+     }
 }
