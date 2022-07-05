@@ -27,7 +27,18 @@ class TagController extends Controller
      */
     public function create()
     {
-        $tag = new Tag();
+       //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+         $tag = new Tag();
          $tag->title = request('title');
          $tag->user_id = Auth::id();
          $tag->save();
@@ -39,17 +50,6 @@ class TagController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Tag  $tag
@@ -57,7 +57,7 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        //
+       //
     }
 
     /**

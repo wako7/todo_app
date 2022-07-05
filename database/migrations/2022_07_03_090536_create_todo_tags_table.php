@@ -13,7 +13,7 @@ class CreateTodoTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('todo_tags', function (Blueprint $table) {
+        Schema::create('tag_todo', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('todo_id');
             $table->integer('tag_id');
@@ -28,6 +28,6 @@ class CreateTodoTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('todo_tags');
+        Schema::dropIfExists('tag_todo');
     }
 }
