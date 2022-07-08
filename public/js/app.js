@@ -2126,6 +2126,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
       this.title = "";
+      window.location.reload();
     },
     editGoalTitle: function editGoalTitle() {
       var _this3 = this;
@@ -2194,7 +2195,7 @@ __webpack_require__.r(__webpack_exports__);
       }, function (error) {
         console.log(error);
       });
-      this.tagTitle = "";
+      this.tagTitle = ""; //  window.location.reload();
     },
     editTagTitle: function editTagTitle(id) {
       var _this7 = this;
@@ -38371,7 +38372,11 @@ var render = function () {
                   "button",
                   {
                     staticClass: "btn btn-primary",
-                    attrs: { type: "button", "data-dismiss": "modal" },
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      onclick: "window.location.reload();",
+                    },
                   },
                   [_vm._v("Save changes")]
                 ),

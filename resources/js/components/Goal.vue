@@ -41,8 +41,8 @@
                          </div>
                      </div>
                      <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary" v-on:click="addNewTag">Add</button>
-                         <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                        <button type="button" class="btn btn-secondary" v-on:click="addNewTag">Add</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.reload();">Save changes</button>
                      </div>
                  </div>
              </div>
@@ -61,7 +61,7 @@
                          <input v-model="tagTitle" class="form-control">
                      </div>
                      <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="editTagTitle(tagId)">Edit</button>
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="editTagTitle(tagId)" >Edit</button>
                          <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#tagModal" v-on:click="tagTitle = ''; tagId = ''">Save changes</button>
                      </div>
                  </div>
@@ -172,6 +172,7 @@ export default {
                 console.log(error)
             })
             this.title = ""
+            window.location.reload();
         },
         editGoalTitle: function () {
             axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
@@ -221,6 +222,9 @@ export default {
                  console.log(error)
              })
              this.tagTitle = ""
+             
+             
+            //  window.location.reload();
          },
          editTagTitle: function (id) {
              axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
