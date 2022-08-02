@@ -21,6 +21,12 @@ class CreateTodosTable extends Migration
              $table->integer('position');
              $table->boolean('done')->default(false);
             $table->timestamps();
+            $table->integer('status_id')->default(1);
+            
+            $table->foreign('status_id') // このテーブルの外部キー列
+            ->references('id') // 参照先テーブルの ID 列
+            ->on('statuses') // 参照先テーブル
+            ->onDelete('restrict'); //子テーブルに対象レコードがある場合、親テーブルのレコード削除を禁止
         });
     }
 
@@ -31,6 +37,10 @@ class CreateTodosTable extends Migration
      */
     public function down()
     {
+         Schema::table('todos', function (Blueprint $table) {
+        $table->dropForeign(['status_id']);
+        });
+
         Schema::dropIfExists('todos');
     }
 }

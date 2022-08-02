@@ -2076,6 +2076,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -38628,6 +38633,8 @@ var render = function () {
                   _vm._v(_vm._s(goal.title)),
                 ]),
                 _vm._v(" "),
+                _vm._m(4, true),
+                _vm._v(" "),
                 _c("div", [
                   _c("i", {
                     staticClass: "fa fa-plus p-2",
@@ -38801,6 +38808,12 @@ var staticRenderFns = [
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       ),
     ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [_c("h6", [_vm._v("goal.created_at")])])
   },
 ]
 render._withStripped = true

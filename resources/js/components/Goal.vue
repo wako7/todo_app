@@ -15,6 +15,7 @@
                     </div>
                     <div class="modal-body">
                         <input v-model="title" class="form-control">
+                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="addNewGoal">Add</button>
@@ -110,6 +111,10 @@
                 <div class="card h-100 m-3" style="width: 24rem;">
                     <div class="d-flex justify-content-between">
                         <h3 class="ml-5 mt-2">{{ goal.title }}</h3>
+                        <div>
+                            <h6>goal.created_at</h6>    
+                        </div>
+                        
                         <div>
                             <i class="fa fa-plus p-2" data-toggle="modal" :data-target="'#todoModal'+goal.id"></i>
                             <div class="btn-group dropdown">
