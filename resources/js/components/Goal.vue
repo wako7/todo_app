@@ -112,7 +112,7 @@
                     <div class="d-flex justify-content-between">
                         <h3 class="ml-5 mt-2">{{ goal.title }}</h3>
                         <div>
-                            <h6>goal.created_at</h6>    
+                            <h6>{{ goal.created_at }}</h6>    
                         </div>
                         
                         <div>
