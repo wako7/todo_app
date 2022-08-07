@@ -1,141 +1,165 @@
 <template>
     <div class="container-fruid h-100 pt-5">
-        <i class="fa fa-plus pl-3" data-toggle="modal" data-target="#goalModal"></i><span class="align-middle"> Create A New Goal</span>
+    <!--　Create A New Goalリンクを表示させている
+      「goalModal」というIDを持つモーダルのトリガー要素を定義   -->
+    <i class="fa fa-plus pl-3" data-toggle="modal" data-target="#goalModal"></i><span class="align-middle"> Create A New Goal</span>
 
-         <i class="fa fa-plus align-middle pl-4 pr-1" data-toggle="modal" data-target="#tagModal"></i><span class="align-middle">Manage Tag</span>
- 
-        <div class="modal fade" id="goalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">New Goal Name</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                    </div>
-                    <div class="modal-body">
-                        <input v-model="title" class="form-control">
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="addNewGoal">Add</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
+     <!--　Manage Tagリンクを表示させている
+      「tagModal」というIDを持つモーダルのトリガー要素を定義   -->
+     <i class="fa fa-plus align-middle pl-4 pr-1" data-toggle="modal" data-target="#tagModal"></i><span class="align-middle">Manage Tag</span>
+
+     <!-- ID:goalModalのポップアップ表示(モーダルの親要素) -->
+    <div class="modal fade" id="goalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <!--modalのヘッダー↓-->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Goal Name</h5>
+                        <!-- closeボタンを非表示にする↓-->
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <!--×ボタン表示 
+                            aria-hidden="trueは
+                            "WEBページの音声読み上げをアイコンフォントを防止する-->
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <!--modalのボディー↓-->
+                <div class="modal-body">
+                    <input v-model="title" class="form-control">
+                    
+                </div>
+                <!--modalのフッタ―↓-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="addNewGoal">Add</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
+    </div>
 
-         <div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-             <div class="modal-dialog" role="document">
-                 <div class="modal-content">
-                     <div class="modal-header">
-                         <h5 class="modal-title" id="exampleModalLabel">New Tag Name</h5>
-                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                 <span aria-hidden="true">&times;</span>
-                             </button>
+    <!-- ID:taglModalのポップアップ表示(モーダルの親要素) -->
+     <div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">New Tag Name</h5>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                         </button>
+                 </div>
+                 <div class="modal-body">
+                     <input v-model="tagTitle" class="form-control">
+                     <div v-for="(key, index) in tags" :key="index">
+                         <button class="btn btn-secondary m-1" v-on:click="tagTitle = tags[index].title; tagId = tags[index].id" data-toggle="modal" data-target="#editTagModal" data-dismiss="modal">{{ tags[index].title }}</button>
+                         <button class="btn btn-danger m-1" v-on:click="deleteTag(tags[index].id)">✖</button>
                      </div>
-                     <div class="modal-body">
-                         <input v-model="tagTitle" class="form-control">
-                         <div v-for="(key, index) in tags" :key="index">
-                             <button class="btn btn-secondary m-1" v-on:click="tagTitle = tags[index].title; tagId = tags[index].id" data-toggle="modal" data-target="#editTagModal" data-dismiss="modal">{{ tags[index].title }}</button>
-                             <button class="btn btn-danger m-1" v-on:click="deleteTag(tags[index].id)">✖</button>
-                         </div>
-                     </div>
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" v-on:click="addNewTag">Add</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.reload();">Save changes</button>
-                     </div>
+                 </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" v-on:click="addNewTag">Add</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.reload();">Save changes</button>
                  </div>
              </div>
          </div>
- 
-         <div class="modal fade" id="editTagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-             <div class="modal-dialog" role="document">
-                 <div class="modal-content">
-                     <div class="modal-header">
-                         <h5 class="modal-title" id="exampleModalLabel">Edit Tag Name</h5>
-                             <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#tagModal" v-on:click="tagTitle = ''; tagId = ''">
-                                 <span aria-hidden="true">&times;</span>
-                             </button>
-                     </div>
-                     <div class="modal-body">
-                         <input v-model="tagTitle" class="form-control">
-                     </div>
-                     <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="editTagTitle(tagId)" >Edit</button>
-                         <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#tagModal" v-on:click="tagTitle = ''; tagId = ''">Save changes</button>
-                     </div>
+     </div>
+
+     <!-- ID:editTaglModalのポップアップ表示(モーダルの親要素) -->
+     <div class="modal fade" id="editTagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Edit Tag Name</h5>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#tagModal" v-on:click="tagTitle = ''; tagId = ''">
+                             <span aria-hidden="true">&times;</span>
+                         </button>
+                 </div>
+                 <div class="modal-body">
+                     <input v-model="tagTitle" class="form-control">
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="editTagTitle(tagId)" >Edit</button>
+                     <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#tagModal" v-on:click="tagTitle = ''; tagId = ''">Save changes</button>
                  </div>
              </div>
          </div>
- 
-        <div class="modal fade" id="editGoalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Goal Name</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                    </div>
-                    <div class="modal-body">
-                        <input v-model="title" class="form-control">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="editGoalTitle">Edit</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+     </div>
 
-        <div class="modal fade" id="deleteGoalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Delete Goal?</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="deleteGoal">Delete</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
+     <!-- ID:editGallModalのポップアップ表示(モーダルの親要素) -->
+    <div class="modal fade" id="editGoalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Goal Name</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <input v-model="title" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="editGoalTitle">Edit</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="card-group h-100">
-            <div v-for="(goal, key, index) in goals" :key=index>
-                <div class="card h-100 m-3" style="width: 24rem;">
-                    <div class="d-flex justify-content-between">
-                        <h3 class="ml-5 mt-2">{{ goal.title }}</h3>
-                        <div>
-                            <h6>{{ goal.created_at }}</h6>    
-                        </div>
-                        
-                        <div>
-                            <i class="fa fa-plus p-2" data-toggle="modal" :data-target="'#todoModal'+goal.id"></i>
-                            <div class="btn-group dropdown">
-                                <i class="fa fa-ellipsis-v p-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <div class="text-center" data-toggle="modal" data-target="#editGoalModal" v-on:click="title = goal.title; id = goal.id">Edit</div>
-                                        <div class="text-danger text-center" data-toggle="modal" data-target="#deleteGoalModal" v-on:click="id = goal.id">Delete</div>
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                    <goals-todos :goalId="goal.id"></goals-todos>
+    <!-- ID:deleteGaollModalのポップアップ表示(モーダルの親要素) -->
+    <div class="modal fade" id="deleteGoalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Goal?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="deleteGoal">Delete</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
+
+
+    <div class="card-group h-100">
+      <!--v-forディレクティブを使用してgoals配列の要素を表示-->
+        <div v-for="(goal, key, index) in goals" :key=index>
+          <!--Goal全体のdiv↓-->
+            <div class="card h-100 m-3" style="width: 24rem;">
+                <!--Goalのtitleのdiv↓-->
+                <div class="d-flex justify-content-between">
+                    <h3 class="ml-5 mt-2">{{ goal.title }}</h3>
+                    <h6>{{ goal.created_at.substring(0, 10) }}</h6>
+                    <h6>{{ goal.label }}</h6>
+                    
+                    <!--「todoModal」というIDを持つモーダルのトリガー要素を定義しているdiv↓-->
+                    <div>
+                        <i class="fa fa-plus p-2" data-toggle="modal" :data-target="'#todoModal'+goal.id"></i>
+                        <!--Goalのeditとdeleteのポップアップを折りたたむ処理↓-->
+                        <div class="btn-group dropdown">
+                            <i class="fa fa-ellipsis-v p-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                <!--EditとDeleteのポップアップ表示のdev↓-->
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <!--「editGoalModal」というIDを持つモーダルのトリガー要素を定義しているdiv↓-->
+                                    <div class="text-center" data-toggle="modal" data-target="#editGoalModal" v-on:click="title = goal.title; id = goal.id">Edit</div>
+                                    <!--「deleteGoalModal」というIDを持つモーダルのトリガー要素を定義しているdiv↓-->
+                                    <div class="text-danger text-center" data-toggle="modal" data-target="#deleteGoalModal" v-on:click="id = goal.id">Delete</div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <goals-todos :goalId="goal.id"></goals-todos>
+            </div>
+        </div>
+    </div>
+</div>    
 </template>
 
 <script>
-import axios from "axios"
-import $ from "jquery"
+import axios from "axios";
+import $ from "jquery";
 import Todos from "./Todos.vue";
 export default {
     data: function() {
@@ -146,9 +170,10 @@ export default {
              tagTitle: "",
              goals: [],
              tags: []
-        }
+        };
     },
     components: {
+        //外部のTodos.vueファイルを「Todos」というモジュール名で読み込み、そのコンポーネント名を「goals-todos」として登録
         'goals-todos': Todos
     },
     mounted: function () {
@@ -159,11 +184,13 @@ export default {
         getAllGoals: function () {
             axios.get("/goals").then((response) => {
                 for(let i = 0; i < response.data.length; i++) {
-                    this.goals.push(response.data[i])
+                    this.goals.push(response.data[i]);
+                    console.log("pushした後のデータ");
+                    console.log(response.data[i]);
                 }
             }, (error) => {
-                console.log(error)
-            })
+                console.log(error);
+            });
         },
         addNewGoal: function () {
             axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');

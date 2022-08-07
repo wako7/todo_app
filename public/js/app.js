@@ -2081,6 +2081,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2096,6 +2120,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   components: {
+    //外部のTodos.vueファイルを「Todos」というモジュール名で読み込み、そのコンポーネント名を「goals-todos」として登録
     'goals-todos': _Todos_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   mounted: function mounted() {
@@ -2109,6 +2134,9 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/goals").then(function (response) {
         for (var i = 0; i < response.data.length; i++) {
           _this.goals.push(response.data[i]);
+
+          console.log("pushした後のデータ");
+          console.log(response.data[i]);
         }
       }, function (error) {
         console.log(error);
@@ -38633,11 +38661,9 @@ var render = function () {
                   _vm._v(_vm._s(goal.title)),
                 ]),
                 _vm._v(" "),
-                _c("div", [
-                  _c("h6", { staticClass: "text-muted" }, [
-                    _vm._v(_vm._s(goal.created_at)),
-                  ]),
-                ]),
+                _c("h6", [_vm._v(_vm._s(goal.created_at.substring(0, 10)))]),
+                _vm._v(" "),
+                _c("h6", [_vm._v(_vm._s(goal.label))]),
                 _vm._v(" "),
                 _c("div", [
                   _c("i", {

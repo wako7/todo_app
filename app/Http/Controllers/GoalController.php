@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Goal;
+use App\Label;
 use Illuminate\Http\Request;
 //ログインしているユーザーの投稿のみをレスポンスとして返したいので、以下を追加
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class GoalController extends Controller
 {
@@ -21,6 +23,10 @@ class GoalController extends Controller
          * 「JSON」(JavaScript Object Notation)という形式で送信
          */
          $goals = Auth::user()->goals;
+         $goals = DB::table('goals')
+            ->select('goals.id', 'goals.title', 'goals.user_id', 'goals.created_at', 'goals.updated_at', 'goals.completed_at', 'goals.status_id', 'goals.deadline', 'labels.label as label', 'goals.detail_id')
+            ->join('labels', 'goals.label_id', '=', 'labels.id')
+            ->get();
          
          return response()->json($goals);
     }

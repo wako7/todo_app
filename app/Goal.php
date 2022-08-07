@@ -33,4 +33,11 @@ class Goal extends Model
      {
          return $this->hasMany('App\Detail');
      }
+     
+     public function get()
+{
+    // $results = Employee::all();
+    $results = Goal::with('label')->all(); 
+    return $results;
+}
 }
