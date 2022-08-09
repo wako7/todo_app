@@ -28,5 +28,6 @@ Route::post('/goals/{goal}/todos/{todo}/tags/{tag}', 'TodoController@addTag')->m
 
 Route::delete('/goals/{goal}/todos/{todo}/tags/{tag}', 'TodoController@removeTag')->middleware('auth');
 
+Route::get('/labels', 'LabelController@index');
 
 Auth::routes();

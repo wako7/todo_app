@@ -130,10 +130,9 @@
             <div class="card h-100 m-3" style="width: 24rem;">
                 <!--Goalのtitleのdiv↓-->
                 <div class="d-flex justify-content-between">
-                    <h3 class="ml-5 mt-2">{{ goal.title }}</h3>
+                    <h3 class="ml-5 mt-2">{{ goal.title }}</h3>                    
                     <h6>{{ goal.created_at.substring(0, 10) }}</h6>
                     <h6>{{ goal.label }}</h6>
-                    
                     <!--「todoModal」というIDを持つモーダルのトリガー要素を定義しているdiv↓-->
                     <div>
                         <i class="fa fa-plus p-2" data-toggle="modal" :data-target="'#todoModal'+goal.id"></i>
@@ -154,7 +153,7 @@
             </div>
         </div>
     </div>
-</div>    
+</div>   
 </template>
 
 <script>
@@ -169,7 +168,8 @@ export default {
              tagId: "",
              tagTitle: "",
              goals: [],
-             tags: []
+             tags: [],
+             labels: []
         };
     },
     components: {
@@ -179,6 +179,7 @@ export default {
     mounted: function () {
         this.getAllGoals();
          this.getAllTags();
+         this.getAllLabels();
     },
     methods: {
         getAllGoals: function () {
@@ -277,6 +278,21 @@ export default {
  
              axios.post(`/tags/${id}`, {_method: 'delete'}).then((response) => {
                  this.tags = response.data;
+             }, (error) => {
+                 console.log(error)
+             })
+         },
+         getAllLabels: function () {
+             axios.get("/labels").then((response) => {
+                 console.log("JSONで取得したLabelのデータ");
+                 console.log(response)
+                 for(let i = 0; i < response.data.length; i++) {
+                     this.labels.push(response.data[i])
+                     console.log("pushしたlabelデータ")
+                     console.log(this.labels[i])
+                 }
+                 console.log("push後のlabelのデータ")
+                 console.log(this.labels)
              }, (error) => {
                  console.log(error)
              })

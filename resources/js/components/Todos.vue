@@ -129,7 +129,7 @@ export default {
             id: "",
             content: "",
             todos: [],
-             tags: [],
+            tags: [],
             sort_id: ""
         }
     },
@@ -155,6 +155,7 @@ export default {
                      this.tags.push(response.data[i])
                      console.log(this.tags[i])
                  }
+                 console.log("tagsのデータ")
                  console.log(this.tags)
              }, (error) => {
                  console.log(error)
@@ -165,7 +166,6 @@ export default {
                  if (item.title === title)
                      return true;
              })
- 
              console.log(result.length);
              if (result.length > 0) {
                  return result[0].title == title

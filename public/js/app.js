@@ -2104,7 +2104,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -2116,7 +2115,8 @@ __webpack_require__.r(__webpack_exports__);
       tagId: "",
       tagTitle: "",
       goals: [],
-      tags: []
+      tags: [],
+      labels: []
     };
   },
   components: {
@@ -2126,6 +2126,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.getAllGoals();
     this.getAllTags();
+    this.getAllLabels();
   },
   methods: {
     getAllGoals: function getAllGoals() {
@@ -2258,6 +2259,26 @@ __webpack_require__.r(__webpack_exports__);
         _method: 'delete'
       }).then(function (response) {
         _this8.tags = response.data;
+      }, function (error) {
+        console.log(error);
+      });
+    },
+    getAllLabels: function getAllLabels() {
+      var _this9 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/labels").then(function (response) {
+        console.log("JSONで取得したLabelのデータ");
+        console.log(response);
+
+        for (var i = 0; i < response.data.length; i++) {
+          _this9.labels.push(response.data[i]);
+
+          console.log("pushしたlabelデータ");
+          console.log(_this9.labels[i]);
+        }
+
+        console.log("push後のlabelのデータ");
+        console.log(_this9.labels);
       }, function (error) {
         console.log(error);
       });
@@ -2444,6 +2465,7 @@ __webpack_require__.r(__webpack_exports__);
           console.log(_this2.tags[i]);
         }
 
+        console.log("tagsのデータ");
         console.log(_this2.tags);
       }, function (error) {
         console.log(error);
