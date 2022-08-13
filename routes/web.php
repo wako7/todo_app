@@ -30,4 +30,6 @@ Route::delete('/goals/{goal}/todos/{todo}/tags/{tag}', 'TodoController@removeTag
 
 Route::get('/labels', 'LabelController@index');
 
+Route::post('/post','GoalController@createPost');
+
 Auth::routes();

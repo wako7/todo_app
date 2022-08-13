@@ -2104,6 +2104,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2116,7 +2128,8 @@ __webpack_require__.r(__webpack_exports__);
       tagTitle: "",
       goals: [],
       tags: [],
-      labels: []
+      labels: [],
+      label: ""
     };
   },
   components: {
@@ -2136,8 +2149,8 @@ __webpack_require__.r(__webpack_exports__);
         for (var i = 0; i < response.data.length; i++) {
           _this.goals.push(response.data[i]);
 
-          console.log("pushした後のデータ");
-          console.log(response.data[i]);
+          console.log("pushした後のgoalsデータ");
+          console.log(_this.goals);
         }
       }, function (error) {
         console.log(error);
@@ -2279,6 +2292,20 @@ __webpack_require__.r(__webpack_exports__);
 
         console.log("push後のlabelのデータ");
         console.log(_this9.labels);
+      }, function (error) {
+        console.log(error);
+      });
+    },
+    onPost: function onPost(val) {
+      //  console.log("onPostが実行された");
+      //  console.log(val);
+      //  console.log(this.label);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/post", {
+        goals_id: val,
+        label: this.label
+      }).then(function (response) {
+        console.log("onPostが実行された");
+        console.log(response);
       }, function (error) {
         console.log(error);
       });
@@ -38580,28 +38607,7 @@ var render = function () {
             _c("div", { staticClass: "modal-content" }, [
               _vm._m(2),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.title,
-                      expression: "title",
-                    },
-                  ],
-                  staticClass: "form-control",
-                  domProps: { value: _vm.title },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.title = $event.target.value
-                    },
-                  },
-                }),
-              ]),
+              _c("div", { staticClass: "modal-body" }),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
                 _c(
@@ -38683,9 +38689,78 @@ var render = function () {
                   _vm._v(_vm._s(goal.title)),
                 ]),
                 _vm._v(" "),
-                _c("h6", [_vm._v(_vm._s(goal.created_at.substring(0, 10)))]),
+                _c("div", [
+                  _c("h6", [_vm._v(_vm._s(goal.created_at.substring(0, 10)))]),
+                ]),
                 _vm._v(" "),
-                _c("h6", [_vm._v(_vm._s(goal.label))]),
+                _c("div", [_c("h6", [_vm._v(_vm._s(goal.label))])]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("p", [
+                    _vm._v("Add Label(Goal id:" + _vm._s(goal.id) + ")"),
+                  ]),
+                  _vm._v(" "),
+                  _c("form", [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.label,
+                            expression: "label",
+                          },
+                        ],
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.label = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { disabled: "", value: "" } }, [
+                          _vm._v("ラベルを選択"),
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.labels, function (label, index) {
+                          return _c(
+                            "option",
+                            {
+                              key: "label-" + index,
+                              domProps: { value: label.id },
+                            },
+                            [_vm._v(_vm._s(label.label))]
+                          )
+                        }),
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        attrs: { type: "button" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.onPost(goal.id)
+                          },
+                        },
+                      },
+                      [_vm._v("Add")]
+                    ),
+                  ]),
+                ]),
                 _vm._v(" "),
                 _c("div", [
                   _c("i", {

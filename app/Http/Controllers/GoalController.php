@@ -70,6 +70,7 @@ class GoalController extends Controller
          * updateアクションでは送られてきたリクエストの値を使い、
          * 既存のGoalを更新します。
          */
+      
          $goal->title = request('title');
          $goal->user_id = Auth::id();
          $goal->save();
@@ -97,4 +98,16 @@ class GoalController extends Controller
          
          return response()->json($goals);
     }
+    
+    public function createPost(Request $request)
+  {
+    $param = [
+        goals_id=>$request('goals_id'),
+        label=>$request('label'),
+    ];
+    
+    
+    DB::table('goals')
+    ->update('UPDATE goals SET label_id = :label WHERE id = :goals_id', $param);
+}
 }

@@ -94,7 +94,7 @@
                         </button>
                 </div>
                 <div class="modal-body">
-                    <input v-model="title" class="form-control">
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="editGoalTitle">Edit</button>
@@ -130,9 +130,21 @@
             <div class="card h-100 m-3" style="width: 24rem;">
                 <!--Goalのtitleのdiv↓-->
                 <div class="d-flex justify-content-between">
-                    <h3 class="ml-5 mt-2">{{ goal.title }}</h3>                    
-                    <h6>{{ goal.created_at.substring(0, 10) }}</h6>
-                    <h6>{{ goal.label }}</h6>
+                    <h3 class="ml-5 mt-2">{{ goal.title }}</h3>
+                    <div><h6>{{ goal.created_at.substring(0, 10) }}</h6></div>
+                    <div><h6>{{ goal.label }}</h6></div>
+                    
+                    <div>
+                        <p>Add Label(Goal id:{{ goal.id }})</p>
+                        <form>
+                            <select v-model="label">
+                                <option disabled value="">ラベルを選択</option>
+                                <option v-for="(label, index) in labels" :key="`label-${index}`" :value="label.id">{{ label.label }}</option>
+                            </select>
+                            <button type="button" v-on:click="onPost(goal.id)">Add</button>
+                        </form>
+                    </div>
+                    
                     <!--「todoModal」というIDを持つモーダルのトリガー要素を定義しているdiv↓-->
                     <div>
                         <i class="fa fa-plus p-2" data-toggle="modal" :data-target="'#todoModal'+goal.id"></i>
@@ -169,7 +181,8 @@ export default {
              tagTitle: "",
              goals: [],
              tags: [],
-             labels: []
+             labels: [],
+             label: "",
         };
     },
     components: {
@@ -186,8 +199,8 @@ export default {
             axios.get("/goals").then((response) => {
                 for(let i = 0; i < response.data.length; i++) {
                     this.goals.push(response.data[i]);
-                    console.log("pushした後のデータ");
-                    console.log(response.data[i]);
+                    console.log("pushした後のgoalsデータ");
+                    console.log(this.goals);
                 }
             }, (error) => {
                 console.log(error);
@@ -297,6 +310,17 @@ export default {
                  console.log(error)
              })
          },
+         onPost: function(val) {
+            //  console.log("onPostが実行された");
+            //  console.log(val);
+            //  console.log(this.label);
+            axios.post("/post", {goals_id : val, label : this.label}).then((response) => {
+            console.log("onPostが実行された");
+            console.log(response);
+            }, (error) => {
+                console.log(error)
+            })
+        },
     }
 }
 </script>
